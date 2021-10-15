@@ -59,5 +59,6 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
+      imagePullPolicy: Always
       maxUnavailable: 25%
       maxSurge: 25%
