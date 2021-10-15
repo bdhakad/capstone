@@ -68,7 +68,22 @@ jobs:
       - run:
           name: get service url
           command: |
-            kubectl get services            
+            kubectl get services
+  build-docker-image:
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: build image 
+          command: |  
+            docker build -t dhakadb/node-hello-world:1.0.0 .
+      - run:
+          name: list images 
+          command: |  
+            docker image ls      
+
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
   kubernetes: circleci/kubernetes@0.4.0
@@ -82,8 +97,9 @@ workflows:
       #     cluster-name: my-eks-demo
           # requires:
           #   - create-small-cluster
-      - create-deployment:
-          cluster-name: my-eks-demo
+      - build-docker-image    
+      # - create-deployment:
+      #     cluster-name: my-eks-demo
           # requires:
           #   - test-cluster    
       # - aws-eks/delete-cluster:
