@@ -74,7 +74,7 @@ jobs:
       IMAGE_NAME: dhakadb/node-hello-world
       TAG: 1.0.0
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
       - setup_remote_docker
