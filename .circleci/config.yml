@@ -48,7 +48,7 @@ jobs:
       - run:
           command: |
             kubectl get services
-          name: Test cluster
+          name: Test if cluster exist and running
   create-deployment:
     executor: aws-eks/python3
     parameters:
@@ -70,7 +70,7 @@ jobs:
           command: |
             kubectl get services
       - run: 
-          name: rollout restartPolicy
+          name: rollout restart
           command: |
             kubectl rollout restart deployment/node-hello-world
   build-and-push-docker-image:
@@ -94,7 +94,20 @@ jobs:
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $IMAGE_NAME:$TAG
-            
+  Build:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies 
+          command: |
+            npm i
+      - run:
+          name: Lint 
+          command: |
+            npm run lint   
+
 
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
@@ -105,11 +118,13 @@ workflows:
     jobs:
       # - create-small-cluster:
       #     cluster-name: my-eks-demo
-      # - test-cluster:
-      #     cluster-name: my-eks-demo
+      - test-cluster:
+          cluster-name: my-eks-demo
           # requires:
           #   - create-small-cluster
-      - build-and-push-docker-image    
+      - build-and-push-docker-image:
+          requires:
+            - test-cluster    
       - create-deployment:
           cluster-name: my-eks-demo
           requires:
