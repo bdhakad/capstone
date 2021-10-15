@@ -49,6 +49,22 @@ jobs:
           command: |
             kubectl get services
           name: Test cluster
+  create-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: deployment.yaml
+          resource-name: deployment/pred-deployment        
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
   kubernetes: circleci/kubernetes@0.4.0
@@ -62,6 +78,10 @@ workflows:
           cluster-name: my-eks-demo
           requires:
             - create-small-cluster
+      - create-deployment:
+          cluster-name: my-eks-demo
+          requires:
+            - test-cluster    
       # - aws-eks/delete-cluster:
       #     cluster-name: my-eks-demo
       #     requires:
