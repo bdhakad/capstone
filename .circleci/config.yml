@@ -69,20 +69,28 @@ jobs:
           name: get service url
           command: |
             kubectl get services
-  build-docker-image:
+  build-and-push-docker-image:
+    environment:
+      IMAGE_NAME: dhakadb/node-hello-world
+      TAG: 1.0.0
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: build image 
-          command: |  
-            docker build -t dhakadb/node-hello-world:1.0.0 .
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:$TAG .
       - run:
           name: list images 
           command: |  
-            docker image ls      
+            docker image ls    
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:$TAG
+            
 
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
