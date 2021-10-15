@@ -33,3 +33,4 @@ Step 4: Build your pipeline
 Step 5: Test your pipeline
  * Pipeline working as expected  
  * Url to access the deployed app: http://a43b859e02cf34c1db283c012a261a9e-1064869306.us-east-1.elb.amazonaws.com/
+ * When a deployment is created or updated as can be sceen in screenshot new pod is created with updated latest image and when new pod is up and ready, old pod is deleted, so in this way rolling update results in zero downtime deployemnet.
