@@ -28,3 +28,8 @@ Step 4: Build your pipeline
  * pipeline code in .circleci/config.yml
  * create-deployment job for deployment 
  * Dockerfile for bundling the code as docker container and build-and-push-docker-image job to do so.
+ *  Linting step in Build job
+
+Step 5: Test your pipeline
+ * Pipeline working as expected  
+ * Url to access the deployed app: http://a43b859e02cf34c1db283c012a261a9e-1064869306.us-east-1.elb.amazonaws.com/
