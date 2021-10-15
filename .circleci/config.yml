@@ -105,7 +105,7 @@ workflows:
       #     cluster-name: my-eks-demo
           # requires:
           #   - create-small-cluster
-      - build-docker-image    
+      - build-and-push-docker-image    
       # - create-deployment:
       #     cluster-name: my-eks-demo
           # requires:
