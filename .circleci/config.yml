@@ -72,7 +72,7 @@ jobs:
   build-and-push-docker-image:
     environment:
       IMAGE_NAME: dhakadb/node-hello-world
-      TAG: 1.0.0
+      TAG: latest
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -106,8 +106,8 @@ workflows:
           # requires:
           #   - create-small-cluster
       - build-and-push-docker-image    
-      # - create-deployment:
-      #     cluster-name: my-eks-demo
+      - create-deployment:
+          cluster-name: my-eks-demo
           # requires:
           #   - test-cluster    
       # - aws-eks/delete-cluster:
