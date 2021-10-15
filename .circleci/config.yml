@@ -49,7 +49,7 @@ jobs:
           command: |
             kubectl get services
           name: Test if cluster exist and running
-  create-deployment:
+  create-update-deployment:
     executor: aws-eks/python3
     parameters:
       cluster-name:
@@ -127,7 +127,7 @@ workflows:
           requires:
             - build-and-push-docker-image
             # - create-small-cluster   
-      - create-deployment:
+      - create-update-deployment:
           cluster-name: my-eks-demo
           requires:
             - test-cluster   
