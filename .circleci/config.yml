@@ -69,6 +69,10 @@ jobs:
           name: get service url
           command: |
             kubectl get services
+      - run: 
+          name: rollout restartPolicy
+          command: |
+            kubectl rollout restart deployment/node-hello-world
   build-and-push-docker-image:
     environment:
       IMAGE_NAME: dhakadb/node-hello-world
