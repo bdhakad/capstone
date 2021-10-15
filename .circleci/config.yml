@@ -72,12 +72,12 @@ version: 2.1
 workflows:
   deployment:
     jobs:
-      - create-small-cluster:
-          cluster-name: my-eks-demo
+      # - create-small-cluster:
+      #     cluster-name: my-eks-demo
       - test-cluster:
           cluster-name: my-eks-demo
-          requires:
-            - create-small-cluster
+          # requires:
+          #   - create-small-cluster
       - create-deployment:
           cluster-name: my-eks-demo
           requires:
