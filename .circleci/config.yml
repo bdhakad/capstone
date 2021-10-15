@@ -64,7 +64,7 @@ jobs:
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yaml
-          resource-name: deployment/pred-deployment        
+          resource-name: deployment/house-price-prediction        
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
   kubernetes: circleci/kubernetes@0.4.0
@@ -74,14 +74,14 @@ workflows:
     jobs:
       # - create-small-cluster:
       #     cluster-name: my-eks-demo
-      - test-cluster:
-          cluster-name: my-eks-demo
+      # - test-cluster:
+      #     cluster-name: my-eks-demo
           # requires:
           #   - create-small-cluster
       - create-deployment:
           cluster-name: my-eks-demo
-          requires:
-            - test-cluster    
+          # requires:
+          #   - test-cluster    
       # - aws-eks/delete-cluster:
       #     cluster-name: my-eks-demo
       #     requires:
