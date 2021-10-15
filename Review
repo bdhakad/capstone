@@ -1,0 +1,30 @@
+Step 1: Propose and Scope the Project
+ * create eks cluster job using the circleci (An eks will be created)
+ * Build: job to install dependencies and lint code
+ * build-and-push-docker-image: create a docker image from updated code and push to dockerhub
+ * test-cluster: test cluster exist and is up and running
+ * create-deployment: create a kubernetes deployment using the image we have pushed to dockerhub in previous job
+ * aws-eks/delete-cluster: delete the cluster if not using
+
+Step 2: Use Jenkins or Circle CI, and implement blue/green or rolling deployment.
+ * we wiil be using circleci for creating our pipeline
+ * CircleCi project: https://app.circleci.com/pipelines/github/bdhakad/capstone
+ * Github Repo: https://github.com/bdhakad/capstone
+ * we will use RollingUpdate deployment strategy in kubernetes to achieve rolling deployment
+
+Step 3: Pick AWS Kubernetes as a Service, or build your own Kubernetes cluster.
+ * We will use AWS Kubernetes as a Service for our cluster
+ * creation of cluster is done by pipeline using eksctl so creation of cluster, vpc and all the required resources are created automatically
+ * To use your eks-cluster from kubernetes dashboard, run below commands
+   1. aws sts get-caller-identity
+   2. aws eks --region us-east-1 update-kubeconfig --name my-eks-demo
+   3. kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
+   4. kubectl apply -f eks-admin-service-account.yaml
+   5. kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
+   6. kubectl proxy
+   7. Hit this url: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login
+
+Step 4: Build your pipeline
+ * pipeline code in .circleci/config.yml
+ * create-deployment job for deployment 
+ * Dockerfile for bundling the code as docker container and build-and-push-docker-image job to do so.

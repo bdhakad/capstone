@@ -118,17 +118,19 @@ workflows:
     jobs:
       # - create-small-cluster:
       #     cluster-name: my-eks-demo
-      - test-cluster:
-          cluster-name: my-eks-demo
-          # requires:
-          #   - create-small-cluster
+      - Build
       - build-and-push-docker-image:
           requires:
-            - test-cluster    
+            - Build
+      - test-cluster:
+          cluster-name: my-eks-demo
+          requires:
+            - build-and-push-docker-image
+            # - create-small-cluster   
       - create-deployment:
           cluster-name: my-eks-demo
           requires:
-            - build-and-push-docker-image    
+            - test-cluster   
       # - aws-eks/delete-cluster:
       #     cluster-name: my-eks-demo
       #     requires:
