@@ -52,7 +52,7 @@ spec:
           securityContext:
             privileged: false
       restartPolicy: Always
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 60
       dnsPolicy: ClusterFirst
       securityContext: {}
       schedulerName: default-scheduler
